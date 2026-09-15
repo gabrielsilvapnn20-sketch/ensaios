@@ -15,12 +15,29 @@ cruzando com o que já foi feito antes.
 |---|-------|----------|
 | 0 | Base do projeto (Vite + React + TS + Tailwind + Dexie) | ✅ |
 | 1 | Importação e parsing do checklist `.xlsx` | ✅ |
-| 2 | Lançamento de produção diária | ⏳ |
-| 3 | Motor de cálculo de ensaios exigidos | ⏳ |
-| 4 | Checklist diário interativo | ⏳ |
-| 5 | Histórico e indicador de aderência | ⏳ |
-| 6 | Exportação Excel/CSV + backup | ⏳ |
-| 7 | Refino visual + deploy (GitHub Pages) | ⏳ |
+| 2 | Lançamento de produção diária | ✅ |
+| 3 | Motor de cálculo de ensaios exigidos | ✅ |
+| 4 | Checklist diário interativo | ✅ |
+| 5 | Histórico e indicador de aderência | ✅ |
+| 6 | Exportação Excel/CSV + backup | ✅ |
+| 7 | Deploy (GitHub Pages) | ✅ |
+
+## Abrir o app (link)
+
+Depois de o GitHub Pages estar ativado, o app fica em:
+
+**https://gabrielsilvapnn20-sketch.github.io/ensaios/**
+
+> **Ativar o Pages (uma vez só):** no GitHub, vá em **Settings → Pages** e em
+> **Source** escolha **GitHub Actions**. No próximo push o app publica sozinho.
+
+### Passo a passo de uso
+
+1. **Obras & Importação** → importe o `.xlsx` da obra (o app cria a obra).
+2. **Lançar produção** → informe o dia (material, serviço, lado, estacas).
+3. **Hoje** → veja a lista de ensaios exigidos e marque feito/pendente/N.A.
+4. **Histórico** → acompanhe a aderência e exporte para Excel/CSV.
+5. **Obras** → faça **backup** de vez em quando (guarda tudo num arquivo).
 
 ## Como funciona a importação (Etapa 1)
 
