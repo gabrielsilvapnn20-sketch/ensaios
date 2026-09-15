@@ -4,6 +4,7 @@ import type {
   Fase,
   FrequenciaSpec,
   FrequenciaTipo,
+  Lado,
   Producao,
   StatusTarefa,
 } from '@/types'
@@ -21,6 +22,7 @@ export interface Tarefa {
   producaoId?: string
   materialNome: string
   grupo?: string
+  lado?: Lado
   fase: Fase
   ensaioNome: string
   unidade?: string
@@ -119,6 +121,7 @@ export function calcularTarefas({
         producaoId: prod.id,
         materialNome: ens.materialNome,
         grupo: prod.grupo ?? ens.grupo,
+        lado: prod.lado,
         fase: ens.fase,
         ensaioNome: ens.nome,
         unidade: ens.unidade,

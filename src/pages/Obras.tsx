@@ -1,15 +1,27 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useLiveQuery } from 'dexie-react-hooks'
-import { Building2, Plus, Trash2, FileSpreadsheet, CheckCircle2, Upload } from 'lucide-react'
+import {
+  Building2,
+  Plus,
+  Trash2,
+  FileSpreadsheet,
+  CheckCircle2,
+  Upload,
+  Download,
+  HardDriveDownload,
+} from 'lucide-react'
 import { db, criarObra, excluirObra } from '@/db'
 import { useApp } from '@/state/appStore'
 import { SectionTitle, EmptyState } from '@/components/ui'
+import { exportarBackup, importarBackup } from '@/lib/exportar'
 
 export function Obras() {
   const { obras, obra, selecionarObra } = useApp()
   const [criando, setCriando] = useState(false)
   const [nome, setNome] = useState('')
+  const backupInput = useRef<HTMLInputElement>(null)
+  const [msgBackup, setMsgBackup] = useState('')
 
   const contagens = useLiveQuery(async () => {
     const map: Record<string, number> = {}
@@ -148,6 +160,42 @@ export function Obras() {
             })}
           </div>
         )}
+      </div>
+
+      {/* Backup / restauração */}
+      <div className="card p-5">
+        <SectionTitle>Backup dos dados</SectionTitle>
+        <p className="mb-4 max-w-2xl text-sm text-ink-faint">
+          Seus dados ficam salvos neste computador. Guarde uma cópia de vez em quando (ou antes de
+          trocar de PC): o backup exporta <strong>todas as obras, produção e ensaios</strong> num
+          único arquivo. Para restaurar, é só reenviar esse arquivo.
+        </p>
+        <div className="flex flex-wrap items-center gap-2">
+          <button className="btn-soft" onClick={() => exportarBackup()}>
+            <Download size={16} /> Baixar backup
+          </button>
+          <button className="btn-ghost" onClick={() => backupInput.current?.click()}>
+            <HardDriveDownload size={16} /> Restaurar backup
+          </button>
+          <input
+            ref={backupInput}
+            type="file"
+            accept="application/json,.json"
+            className="hidden"
+            onChange={async (e) => {
+              const f = e.target.files?.[0]
+              if (!f) return
+              try {
+                await importarBackup(await f.text())
+                setMsgBackup('Backup restaurado com sucesso.')
+              } catch (err) {
+                setMsgBackup('Falha ao restaurar: ' + (err as Error).message)
+              }
+              e.target.value = ''
+            }}
+          />
+          {msgBackup && <span className="text-sm text-ink-soft">{msgBackup}</span>}
+        </div>
       </div>
     </div>
   )
