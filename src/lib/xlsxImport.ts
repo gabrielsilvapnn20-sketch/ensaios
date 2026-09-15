@@ -49,6 +49,17 @@ function ehNorma(param: string): boolean {
   return /(ES-PAV|ES-T|ES-DRE|ES-DNIT)\b/i.test(param) || /GOINFRA/i.test(param)
 }
 
+/**
+ * É um título de serviço/subgrupo em MAIÚSCULAS sem frequência?
+ * (ex.: "COMPACTAÇÃO 100% - ATERRO", "REGULARIZAÇÃO SUBLEITO") — esses
+ * cabeçalhos aparecem sem a norma na coluna PARÂMETRO.
+ */
+function ehTituloGrupo(nome: string): boolean {
+  if (!nome || /^\d/.test(nome)) return false
+  if (!/[A-ZÀ-Ú]/.test(nome)) return false
+  return nome === nome.toLocaleUpperCase('pt-BR') && nome.length >= 4
+}
+
 /** Aba é PVEGQ / relatório de efetividade (não é checklist de ensaio). */
 function ehRelatorio(nome: string, grid: Grid): boolean {
   if (/PVEGQ/i.test(nome)) return true
@@ -132,11 +143,15 @@ function parsearAba(nome: string, grid: Grid): MaterialParsed | null {
     if (!nomeEnsaio && !param) continue
     if (/^SUBTOTAL/i.test(nomeEnsaio) || /^TOTAL$/i.test(nomeEnsaio)) continue
 
-    // Cabeçalho de grupo/norma
-    if (ehNorma(param)) {
+    // Cabeçalho de grupo/serviço: com norma, ou título em MAIÚSCULAS sem frequência.
+    const cabecalhoNorma = ehNorma(param)
+    const cabecalhoTitulo = !param && !und && ehTituloGrupo(nomeEnsaio)
+    if (cabecalhoNorma || cabecalhoTitulo) {
       grupoAtual = nomeEnsaio || grupoAtual
-      normaAtual = param
-      if (!normaResumo) normaResumo = param
+      if (cabecalhoNorma) {
+        normaAtual = param
+        if (!normaResumo) normaResumo = param
+      }
       continue
     }
 

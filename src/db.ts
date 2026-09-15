@@ -6,6 +6,7 @@ import type {
   Material,
   Obra,
   Producao,
+  StatusTarefa,
 } from './types'
 import type { ImportResult } from './lib/xlsxImport'
 import { METROS_POR_ESTACA_PADRAO } from './lib/estacas'
@@ -175,5 +176,42 @@ export async function salvarChecklistImportado(
     })
 
     return { adicionados, removidos, alterados, primeiraVez }
+  })
+}
+
+// ---- Produção ----------------------------------------------
+
+export async function salvarProducao(
+  dados: Omit<Producao, 'id' | 'criadoEm'> & { id?: string },
+): Promise<Producao> {
+  const prod: Producao = {
+    ...dados,
+    id: dados.id ?? uid(),
+    criadoEm: Date.now(),
+  }
+  await db.producoes.put(prod)
+  return prod
+}
+
+export async function excluirProducao(id: string): Promise<void> {
+  await db.producoes.delete(id)
+}
+
+// ---- Execução de ensaios (status das tarefas) ---------------
+
+export async function setStatusTarefa(
+  obraId: string,
+  id: string,
+  patch: { status?: StatusTarefa; resultado?: string; dataExecucao?: string; observacao?: string },
+): Promise<void> {
+  const atual = await db.execucoes.get(id)
+  await db.execucoes.put({
+    id,
+    obraId,
+    status: patch.status ?? atual?.status ?? 'pendente',
+    resultado: patch.resultado ?? atual?.resultado,
+    dataExecucao: patch.dataExecucao ?? atual?.dataExecucao,
+    observacao: patch.observacao ?? atual?.observacao,
+    atualizadoEm: Date.now(),
   })
 }

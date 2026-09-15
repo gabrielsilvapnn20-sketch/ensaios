@@ -95,6 +95,8 @@ export interface Producao {
   data: string // ISO yyyy-mm-dd
   materialId: string
   materialNome: string
+  /** Serviço/subgrupo dentro do material (ex.: "BASE BGS"), quando aplicável. */
+  grupo?: string
   lado?: Lado
   /** Estaca inicial no formato "estaca+metro" (ex.: "885+10"). */
   estacaInicial?: string
