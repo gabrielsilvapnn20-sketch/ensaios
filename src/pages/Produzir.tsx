@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useLiveQuery } from 'dexie-react-hooks'
-import { PlusCircle, Trash2, MapPin, ArrowRight, Layers } from 'lucide-react'
+import { PlusCircle, Trash2, MapPin, ArrowRight, Layers, ClipboardPaste } from 'lucide-react'
 import { db, salvarProducao, excluirProducao } from '@/db'
 import { useApp } from '@/state/appStore'
 import { EmptyState, SectionTitle } from '@/components/ui'
@@ -120,8 +120,8 @@ export function Produzir() {
             Informe o que foi executado. O app calcula os ensaios automaticamente.
           </p>
         </div>
-        <Link to="/importar" className="btn-ghost hidden sm:inline-flex">
-          Lote / colar
+        <Link to="/lote" className="btn-ghost hidden sm:inline-flex">
+          <ClipboardPaste size={16} /> Lançar em lote
         </Link>
       </div>
 

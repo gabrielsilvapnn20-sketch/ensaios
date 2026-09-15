@@ -2,6 +2,7 @@ import { NavLink } from 'react-router-dom'
 import {
   CalendarCheck,
   ClipboardList,
+  ClipboardPaste,
   FileSpreadsheet,
   History,
   PlusCircle,
@@ -13,6 +14,7 @@ import { useApp } from '@/state/appStore'
 const links = [
   { to: '/', label: 'Hoje', icon: CalendarCheck, end: true },
   { to: '/produzir', label: 'Lançar produção', icon: PlusCircle },
+  { to: '/lote', label: 'Lançar em lote', icon: ClipboardPaste },
   { to: '/checklist', label: 'Checklist da obra', icon: ClipboardList },
   { to: '/historico', label: 'Histórico', icon: History },
   { to: '/obras', label: 'Obras & Importação', icon: FileSpreadsheet },

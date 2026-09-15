@@ -5,6 +5,7 @@ import { Sidebar } from './components/Sidebar'
 import { useApp } from './state/appStore'
 import { Hoje } from './pages/Hoje'
 import { Produzir } from './pages/Produzir'
+import { Lote } from './pages/Lote'
 import { ChecklistView } from './pages/ChecklistView'
 import { Historico } from './pages/Historico'
 import { Obras } from './pages/Obras'
@@ -49,6 +50,7 @@ export default function App() {
               <Routes key={location.pathname.split('/')[1]}>
                 <Route path="/" element={<Hoje />} />
                 <Route path="/produzir" element={<Produzir />} />
+                <Route path="/lote" element={<Lote />} />
                 <Route path="/checklist" element={<ChecklistView />} />
                 <Route path="/historico" element={<Historico />} />
                 <Route path="/obras" element={<Obras />} />

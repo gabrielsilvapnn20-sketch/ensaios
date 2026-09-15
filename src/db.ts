@@ -199,6 +199,25 @@ export async function excluirProducao(id: string): Promise<void> {
 
 // ---- Execução de ensaios (status das tarefas) ---------------
 
+// ---- Apelidos de serviço (relatório -> material/grupo) ------
+
+export interface AliasAlvo {
+  materialNome: string
+  grupo?: string
+}
+
+export async function getAliases(obraId: string): Promise<Record<string, AliasAlvo>> {
+  const row = await db.config.get(`aliases_${obraId}`)
+  return (row?.valor as Record<string, AliasAlvo>) ?? {}
+}
+
+export async function salvarAliases(
+  obraId: string,
+  aliases: Record<string, AliasAlvo>,
+): Promise<void> {
+  await db.config.put({ chave: `aliases_${obraId}`, valor: aliases })
+}
+
 export async function setStatusTarefa(
   obraId: string,
   id: string,
